@@ -14,6 +14,7 @@ import es.ua.eps.persistenciadatos_sqlite.data.User
 import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityMainBinding
 import es.ua.eps.persistenciadatos_sqlite.ui.NewUserActivity
 import es.ua.eps.persistenciadatos_sqlite.ui.UpdateUserActivity
+import es.ua.eps.persistenciadatos_sqlite.ui.UserListActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             btnListUser.setOnClickListener {
-
+                startActivity(Intent(activity,UserListActivity::class.java))
             }
 
             btnBack.setOnClickListener { finish() }
