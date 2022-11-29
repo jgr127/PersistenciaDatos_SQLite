@@ -1,26 +1,28 @@
-package es.ua.eps.persistenciadatos_sqlite.ui
+package es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import es.ua.eps.persistenciadatos_sqlite.data.User
-import es.ua.eps.persistenciadatos_sqlite.databinding.UserViewBinding
+import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityUserViewBinding
 
-abstract class GenericUserView(val type:UserViewType) : AppCompatActivity() {
+abstract class GenericUserView(val type: UserViewType) : AppCompatActivity() {
 
     //UI
-    lateinit var binding: UserViewBinding
+    lateinit var binding: ActivityUserViewBinding
+    lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = UserViewBinding.inflate(layoutInflater)
+        activity=this
+        binding = ActivityUserViewBinding.inflate(layoutInflater)
         with(binding){
             setContentView(binding.root)
 
 
             btnNewUser.text = when(type){
-                UserViewType.NewUser->"New user"
-                UserViewType.UpdateUser->"Update user"
+                UserViewType.NewUser ->"New user"
+                UserViewType.UpdateUser ->"Update user"
             }
             btnNewUser.setOnClickListener {
                 val nick=inputUserNick.text.toString()
@@ -40,7 +42,7 @@ abstract class GenericUserView(val type:UserViewType) : AppCompatActivity() {
                     inputUserName.error="Too short!"
                 }
                 else{
-                    onButtonAction(nick, pass, name)
+                    onButtonAction(nick, pass, name,"")
                 }
             }
 
@@ -53,7 +55,7 @@ abstract class GenericUserView(val type:UserViewType) : AppCompatActivity() {
     }
 
     //Important functions
-    abstract fun onButtonAction(nick:String,pass:String,name:String)
+    abstract fun onButtonAction(nick:String,pass:String,name:String,email:String)
 
     /*
     OPTIONAL FUNCTIONS

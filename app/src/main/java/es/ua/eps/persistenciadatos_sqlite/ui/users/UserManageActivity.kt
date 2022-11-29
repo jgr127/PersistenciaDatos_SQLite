@@ -1,8 +1,7 @@
-package es.ua.eps.persistenciadatos_sqlite
+package es.ua.eps.persistenciadatos_sqlite.ui.users
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,15 +10,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import es.ua.eps.persistenciadatos_sqlite.data.DataBase
 import es.ua.eps.persistenciadatos_sqlite.data.User
-import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityMainBinding
-import es.ua.eps.persistenciadatos_sqlite.ui.NewUserActivity
-import es.ua.eps.persistenciadatos_sqlite.ui.UpdateUserActivity
-import es.ua.eps.persistenciadatos_sqlite.ui.UserListActivity
+import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityUserManageBinding
+import es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit.NewUserActivity
+import es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit.UpdateUserActivity
+import es.ua.eps.persistenciadatos_sqlite.ui.users.userList.UserListActivity
 
-class MainActivity : AppCompatActivity() {
+class UserManageActivity : AppCompatActivity() {
 
     //Basic control
-    lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityUserManageBinding
     lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,16 +26,16 @@ class MainActivity : AppCompatActivity() {
 
         activity=this
 
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding=ActivityUserManageBinding.inflate(layoutInflater)
         with(binding){
             setContentView(root)
 
             btnNewUser.setOnClickListener {
-                startActivity(Intent(activity,NewUserActivity::class.java))
+                startActivity(Intent(activity, NewUserActivity::class.java))
             }
 
             btnListUser.setOnClickListener {
-                startActivity(Intent(activity,UserListActivity::class.java))
+                startActivity(Intent(activity, UserListActivity::class.java))
             }
 
             btnBack.setOnClickListener { finish() }
@@ -51,7 +50,8 @@ class MainActivity : AppCompatActivity() {
     //USER LIST UI
     fun updateUserListUI(){
         with(binding){
-            if(DataBase.isUserListEmpty()){
+            val userList=DataBase.getUserList(activity)
+            if(userList.isEmpty()){
                 spinnerUsers.adapter=ArrayAdapter(activity,android.R.layout.simple_dropdown_item_1line,mutableListOf<String>())
                 spinnerUsers.isEnabled=false
                 btnUpdateUser.isEnabled=false
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 btnUpdateUser.isEnabled=true
                 btnDeleteUser.isEnabled=true
 
-                spinnerUsers.adapter=ArrayAdapter(activity,android.R.layout.simple_dropdown_item_1line,DataBase.getUserList())
+                spinnerUsers.adapter=ArrayAdapter(activity,android.R.layout.simple_dropdown_item_1line,userList)
                 var currentSelectedUser:User?=null
                 spinnerUsers.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
                     override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -74,16 +74,16 @@ class MainActivity : AppCompatActivity() {
                 btnUpdateUser.setOnClickListener {
                     currentSelectedUser?.let {
                         UpdateUserActivity.selectedUser=it
-                        startActivity(Intent(activity,UpdateUserActivity::class.java))
+                        startActivity(Intent(activity, UpdateUserActivity::class.java))
                     }
                 }
                 btnDeleteUser.setOnClickListener {
                     currentSelectedUser?.let {
                         val builder = AlertDialog.Builder(activity)
                         builder.setTitle("Delete User")
-                        builder.setMessage("¿Are you sure you want to delete: ${it.nick} (${it.userName})?")
+                        builder.setMessage("¿Are you sure you want to delete: ${it.nick} (${it.name})?")
                             .setPositiveButton("YES") { dialog, id ->
-                                DataBase.deleteUser(it)
+                                DataBase.deleteUser(activity,it)
                                 updateUserListUI()
                             }
                             .setNegativeButton("CANCEL") { dialog, id ->

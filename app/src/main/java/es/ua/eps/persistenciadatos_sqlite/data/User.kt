@@ -6,7 +6,8 @@ data class User(
     var id:Int,
     var nick:String,
     var password:String,
-    var userName:String
+    var name:String,
+    var email:String
 ) {
 
     override fun toString(): String {
