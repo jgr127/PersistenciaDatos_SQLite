@@ -4,9 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Environment
 import android.provider.BaseColumns
 import es.ua.eps.persistenciadatos_sqlite.data.DataBaseInterface
 import es.ua.eps.persistenciadatos_sqlite.data.User
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.channels.FileChannel
 
 
 const val SQLiteDatabaseName:String="usersSQLite.db"
@@ -107,6 +112,27 @@ class UserSQLiteDatabase(context: Context) : SQLiteOpenHelper(context,SQLiteData
 
     //MANAGE DDBB
     override fun createBackUp() {
+        try {
+            val sd: File = Environment.getExternalStorageDirectory()
+            val data: File = Environment.getDataDirectory()
+            if (sd.canWrite()) {
+                //Replace with YOUR_PACKAGE_NAME and YOUR_DB_NAME
+                val currentDBPath = "./{${UserEntry.TABLE_NAME}}"
+                //Replace with YOUR_FOLDER_PATH and TARGET_DB_NAME in the SD card
+                val copieDBPath: String = UserEntry.TABLE_NAME
+                val currentDB = File(data, currentDBPath)
+                val copieDB = File(sd, copieDBPath)
+                if (currentDB.exists()) {
+                    val src: FileChannel = FileInputStream(currentDB).getChannel()
+                    val dst: FileChannel = FileOutputStream(copieDB).getChannel()
+                    dst.transferFrom(src, 0, src.size())
+                    src.close()
+                    dst.close()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
     override fun restoreBackUp() {
     }
