@@ -1,6 +1,7 @@
-package es.ua.eps.persistenciadatos_sqlite.data
+package es.ua.eps.persistenciadatos_sqlite.ddbbGeneral
 
 import android.content.Context
+import es.ua.eps.persistenciadatos_sqlite.data.User
 import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.RoomAppDatabase
 import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.UserRoomDatabase
 import es.ua.eps.persistenciadatos_sqlite.ddbbSQLite.UserSQLiteDatabase
@@ -29,7 +30,7 @@ class DataBase {
         fun editUser(context: Context,id:Int,nick: String, pass: String, name: String, email: String){
             getCurrentControler(context).editUser(id,nick,pass,name,email)
         }
-        fun deleteUser(context: Context,user:User){
+        fun deleteUser(context: Context,user: User){
             getCurrentControler(context).deleteUser(user.id)
         }
 
@@ -45,10 +46,11 @@ class DataBase {
 
         //MANAGE DDBB
         fun createBackUp(context: Context){
-            getCurrentControler(context).createBackUp()
+            DataBaseManage(context,currentType).createBackUp(getUserList(context))
         }
         fun restoreBackUp(context: Context){
-            getCurrentControler(context).restoreBackUp()
+            val backupList = DataBaseManage(context,currentType).getBackupList()
+            println(backupList)
         }
     }
 }
@@ -68,6 +70,6 @@ interface DataBaseInterface{
     fun getUserList():List<User>
 
     //MANAGE DDBB
-    fun createBackUp()
-    fun restoreBackUp()
+    //fun createBackUp()
+    //fun restoreBackUp()
 }

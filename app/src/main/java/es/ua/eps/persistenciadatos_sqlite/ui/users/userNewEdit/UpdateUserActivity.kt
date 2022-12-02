@@ -1,7 +1,7 @@
 package es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit
 
-import es.ua.eps.persistenciadatos_sqlite.data.DataBase
 import es.ua.eps.persistenciadatos_sqlite.data.User
+import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBase
 
 class UpdateUserActivity : GenericUserView(UserViewType.UpdateUser) {
 

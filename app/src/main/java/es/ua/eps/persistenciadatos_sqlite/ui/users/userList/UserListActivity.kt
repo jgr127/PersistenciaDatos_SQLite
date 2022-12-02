@@ -2,8 +2,8 @@ package es.ua.eps.persistenciadatos_sqlite.ui.users.userList
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import es.ua.eps.persistenciadatos_sqlite.data.DataBase
 import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityUserListBinding
+import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBase
 
 class UserListActivity : AppCompatActivity() {
 
@@ -15,7 +15,7 @@ class UserListActivity : AppCompatActivity() {
         with(bindings){
             setContentView(root)
 
-            listview.adapter= UserAdapter(activity,DataBase.getUserList(activity))
+            listview.adapter= UserAdapter(activity, DataBase.getUserList(activity))
 
             btnBack.setOnClickListener { finish() }
 

@@ -2,8 +2,9 @@ package es.ua.eps.persistenciadatos_sqlite.ddbbRoom
 
 import android.content.Context
 import androidx.room.Room
-import es.ua.eps.persistenciadatos_sqlite.data.DataBaseInterface
+import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBaseInterface
 import es.ua.eps.persistenciadatos_sqlite.data.User
+import es.ua.eps.persistenciadatos_sqlite.ddbbSQLite.SQLiteDatabaseName
 
 const val RoomDatabaseName:String="usersRoom.db"
 
@@ -11,7 +12,8 @@ class UserRoomDatabase(val context: Context) : DataBaseInterface {
 
     //GENERAL
     private fun getAppDatabase():RoomAppDatabase{
-        val db: RoomAppDatabase = Room.databaseBuilder(context,RoomAppDatabase::class.java, RoomDatabaseName).allowMainThreadQueries().build()
+        val db: RoomAppDatabase = Room.databaseBuilder(context,RoomAppDatabase::class.java, RoomDatabaseName)
+            .allowMainThreadQueries().build()
         return db
     }
 
@@ -41,11 +43,6 @@ class UserRoomDatabase(val context: Context) : DataBaseInterface {
         return db.userDao().loadAll()
     }
 
-    //MANAGE DDBB
-    override fun createBackUp() {
-    }
-    override fun restoreBackUp() {
-    }
 
     //PATRON SINGLETON (para poder usarlo de forma "estatica" donde quiera)
     companion object{

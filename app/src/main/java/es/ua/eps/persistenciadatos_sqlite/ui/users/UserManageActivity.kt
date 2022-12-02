@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import es.ua.eps.persistenciadatos_sqlite.data.DataBase
 import es.ua.eps.persistenciadatos_sqlite.data.User
 import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityUserManageBinding
+import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBase
 import es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit.NewUserActivity
 import es.ua.eps.persistenciadatos_sqlite.ui.users.userNewEdit.UpdateUserActivity
 import es.ua.eps.persistenciadatos_sqlite.ui.users.userList.UserListActivity
