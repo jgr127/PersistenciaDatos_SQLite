@@ -1,17 +1,24 @@
 package es.ua.eps.persistenciadatos_sqlite.data
 
 import android.content.Context
-import es.ua.eps.persistenciadatos_sqlite.dataBase.UserSQLiteDatabase
+import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.RoomAppDatabase
+import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.UserRoomDatabase
+import es.ua.eps.persistenciadatos_sqlite.ddbbSQLite.UserSQLiteDatabase
 
-class DataBase() {
+class DataBase {
     companion object{
         //CONTROL
         var currentType:DataBaseType=DataBaseType.SQLITE
         private fun getCurrentControler(context: Context):DataBaseInterface{
             return when(currentType){
                 DataBaseType.SQLITE-> UserSQLiteDatabase.getInstance(context)
-                //DataBaseType.ROOM-> TODO
-                //DataBaseType.MOCK_VALUES-> TODO
+                DataBaseType.ROOM-> UserRoomDatabase.getInstance(context)
+            }
+        }
+        fun changeTypeDDBB(){
+            when(currentType){
+                DataBaseType.SQLITE-> this.currentType=DataBaseType.ROOM
+                DataBaseType.ROOM-> this.currentType=DataBaseType.SQLITE
             }
         }
 
@@ -38,7 +45,7 @@ class DataBase() {
 
         //MANAGE DDBB
         fun createBackUp(context: Context){
-            getCurrentControler(context).restoreBackUp()
+            getCurrentControler(context).createBackUp()
         }
         fun restoreBackUp(context: Context){
             getCurrentControler(context).restoreBackUp()
@@ -46,7 +53,7 @@ class DataBase() {
     }
 }
 enum class DataBaseType{
-    SQLITE//,ROOM,MOCK_VALUES
+    SQLITE,ROOM
 }
 interface DataBaseInterface{
     //USER: NEW, EDIT, DELETE

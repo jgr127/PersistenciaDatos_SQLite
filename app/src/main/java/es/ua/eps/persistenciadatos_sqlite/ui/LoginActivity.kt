@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Switch
 import android.widget.Toast
 import es.ua.eps.persistenciadatos_sqlite.R
 import es.ua.eps.persistenciadatos_sqlite.data.DataBase
+import es.ua.eps.persistenciadatos_sqlite.data.DataBaseType
 import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityLoginBinding
 import es.ua.eps.persistenciadatos_sqlite.ui.users.UserLoggedActivity
 import es.ua.eps.persistenciadatos_sqlite.ui.users.UserManageActivity
@@ -17,6 +19,7 @@ import es.ua.eps.persistenciadatos_sqlite.ui.users.UserManageActivity
 class LoginActivity : AppCompatActivity() {
 
     lateinit var activity:Activity
+    lateinit var switch: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +43,9 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(activity,UserLoggedActivity::class.java))
                 }
             }
+
+            switch=cambiarModo
+            updateSwitchUI()
 
             btnClose.setOnClickListener {
                 finish()
@@ -68,6 +74,22 @@ class LoginActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun updateSwitchUI(){
+        switch.text = when(DataBase.currentType){
+            DataBaseType.SQLITE->"DDBB: SQLite"
+            DataBaseType.ROOM->"DDBB: ROOM"
+        }
+        switch.isSelected = when(DataBase.currentType){
+            DataBaseType.SQLITE-> false
+            DataBaseType.ROOM-> true
+        }
+
+        switch.setOnClickListener {
+            DataBase.changeTypeDDBB()
+            updateSwitchUI()
         }
     }
 

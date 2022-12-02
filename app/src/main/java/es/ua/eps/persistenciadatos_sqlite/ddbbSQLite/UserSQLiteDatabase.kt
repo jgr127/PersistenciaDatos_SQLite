@@ -1,4 +1,4 @@
-package es.ua.eps.persistenciadatos_sqlite.dataBase
+package es.ua.eps.persistenciadatos_sqlite.ddbbSQLite
 
 import android.content.ContentValues
 import android.content.Context
@@ -113,8 +113,10 @@ class UserSQLiteDatabase(context: Context) : SQLiteOpenHelper(context,SQLiteData
     //MANAGE DDBB
     override fun createBackUp() {
         try {
+            println("createBackUp")
             val sd: File = Environment.getExternalStorageDirectory()
             val data: File = Environment.getDataDirectory()
+            println("createBackUp: ${sd.canWrite()}")
             if (sd.canWrite()) {
                 //Replace with YOUR_PACKAGE_NAME and YOUR_DB_NAME
                 val currentDBPath = "./{${UserEntry.TABLE_NAME}}"
@@ -130,9 +132,8 @@ class UserSQLiteDatabase(context: Context) : SQLiteOpenHelper(context,SQLiteData
                     dst.close()
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
+        catch (e: Exception) { e.printStackTrace() }
     }
     override fun restoreBackUp() {
     }

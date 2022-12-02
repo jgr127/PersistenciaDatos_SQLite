@@ -1,13 +1,17 @@
 package es.ua.eps.persistenciadatos_sqlite.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.lang.Exception
 
+@Entity
 data class User(
-    var id:Int,
-    var nick:String,
-    var password:String,
-    var name:String,
-    var email:String
+    @PrimaryKey var id:Int,
+    @ColumnInfo(name = "nick") var nick:String,
+    @ColumnInfo(name = "password") var password:String,
+    @ColumnInfo(name = "name") var name:String,
+    @ColumnInfo(name = "email") var email:String
 ) {
 
     override fun toString(): String {
