@@ -15,6 +15,7 @@ class UpdateUserActivity : GenericUserView(UserViewType.UpdateUser) {
         setUserNick(selectedUser.nick)
         setUserPassword(selectedUser.password)
         setUserName(selectedUser.name)
+        setUserEmail(selectedUser.email)
     }
 
     override fun onButtonAction(nick: String, pass: String, name: String,email:String) {

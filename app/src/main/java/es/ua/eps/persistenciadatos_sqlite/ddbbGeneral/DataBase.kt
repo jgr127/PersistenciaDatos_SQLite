@@ -1,10 +1,13 @@
 package es.ua.eps.persistenciadatos_sqlite.ddbbGeneral
 
+import android.app.Activity
 import android.content.Context
+import es.ua.eps.persistenciadatos_sqlite.data.Backup
 import es.ua.eps.persistenciadatos_sqlite.data.User
 import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.RoomAppDatabase
 import es.ua.eps.persistenciadatos_sqlite.ddbbRoom.UserRoomDatabase
 import es.ua.eps.persistenciadatos_sqlite.ddbbSQLite.UserSQLiteDatabase
+import es.ua.eps.persistenciadatos_sqlite.ui.restoreBackup.BackupListDialogFragment
 
 class DataBase {
     companion object{
@@ -44,13 +47,17 @@ class DataBase {
             return getCurrentControler(context).getUserList()
         }
 
+        //RELATED TO LIST
+        fun reloadFullDataBase(context: Context, users:List<User>){
+            return getCurrentControler(context).reloadFullDataBase(users)
+        }
+
         //MANAGE DDBB
         fun createBackUp(context: Context){
-            DataBaseManage(context,currentType).createBackUp(getUserList(context))
+            DataBaseManage(context).createBackUp(getUserList(context))
         }
-        fun restoreBackUp(context: Context){
-            val backupList = DataBaseManage(context,currentType).getBackupList()
-            println(backupList)
+        fun restoreBackUp(context: Context): List<Backup>{
+            return DataBaseManage(context).getBackupList()
         }
     }
 }
@@ -68,6 +75,9 @@ interface DataBaseInterface{
 
     //RELATED TO LIST
     fun getUserList():List<User>
+
+    //RELOAD DDBB
+    fun reloadFullDataBase(newUsers:List<User>)
 
     //MANAGE DDBB
     //fun createBackUp()

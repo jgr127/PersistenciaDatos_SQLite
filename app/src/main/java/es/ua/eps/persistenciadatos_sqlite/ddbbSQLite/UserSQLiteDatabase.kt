@@ -105,6 +105,14 @@ class UserSQLiteDatabase(context: Context) : SQLiteOpenHelper(context,SQLiteData
         return res
     }
 
+    //RELATED TO LIST
+    override fun reloadFullDataBase(newUsers: List<User>) {
+        val db = writableDatabase
+        db.delete(UserEntry.TABLE_NAME,null,null)
+        for(user in newUsers){
+            newUser(user.nick,user.password,user.name,user.email)
+        }
+    }
 
     //PATRON SINGLETON (para poder usarlo de forma "estatica" donde quiera)
     companion object{

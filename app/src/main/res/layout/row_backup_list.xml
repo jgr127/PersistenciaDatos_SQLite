@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvFecha"
+        android:gravity="center"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvHora"
+        android:gravity="center"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvTipo"
+        android:gravity="center"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvUsuarios"
+        android:gravity="center"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnRecuperar"
+        android:text="Select"
+        android:padding="0dp"
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -12,8 +12,7 @@ class UserRoomDatabase(val context: Context) : DataBaseInterface {
 
     //GENERAL
     private fun getAppDatabase():RoomAppDatabase{
-        val db: RoomAppDatabase = Room.databaseBuilder(context,RoomAppDatabase::class.java, RoomDatabaseName)
-            .allowMainThreadQueries().build()
+        val db: RoomAppDatabase = Room.databaseBuilder(context,RoomAppDatabase::class.java, RoomDatabaseName).allowMainThreadQueries().build()
         return db
     }
 
@@ -41,6 +40,14 @@ class UserRoomDatabase(val context: Context) : DataBaseInterface {
     override fun getUserList(): List<User> {
         val db = getAppDatabase()
         return db.userDao().loadAll()
+    }
+
+    //RELATED TO LIST
+    override fun reloadFullDataBase(newUsers: List<User>) {
+        val db = getAppDatabase()
+        db.userDao().deleteFullTable()
+        for(user in newUsers)
+            db.userDao().insert(user)
     }
 
 

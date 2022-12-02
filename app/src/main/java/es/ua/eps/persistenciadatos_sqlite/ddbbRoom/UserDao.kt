@@ -22,4 +22,7 @@ interface UserDao {
     @Query("SELECT * FROM user where nick LIKE :nick AND password LIKE :password LIMIT 1")
     fun loadOneByNickAndPassword(nick: String, password: String): User?
 
+    @Query("DELETE FROM user")
+    fun deleteFullTable()
+
 }

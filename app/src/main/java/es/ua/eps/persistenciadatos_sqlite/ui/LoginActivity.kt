@@ -18,6 +18,7 @@ import es.ua.eps.persistenciadatos_sqlite.R
 import es.ua.eps.persistenciadatos_sqlite.databinding.ActivityLoginBinding
 import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBase
 import es.ua.eps.persistenciadatos_sqlite.ddbbGeneral.DataBaseType
+import es.ua.eps.persistenciadatos_sqlite.ui.restoreBackup.BackupListDialogFragment
 import es.ua.eps.persistenciadatos_sqlite.ui.users.UserLoggedActivity
 import es.ua.eps.persistenciadatos_sqlite.ui.users.UserManageActivity
 
@@ -69,22 +70,13 @@ class LoginActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.createBackUp -> {
-                /*val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    Log.i("Mensaje", "No se tiene permiso para leer.")
-                    ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        225)
-                }
-                else {
-                    Log.i("Mensaje", "Se tiene permiso para leer!")
-                    DataBase.createBackUp(activity)
-                }*/
                 DataBase.createBackUp(activity)
+                Toast.makeText(applicationContext,"BackUp generated properly!", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.restoreBackUp -> {
-                DataBase.restoreBackUp(activity)
+                val dialog = BackupListDialogFragment(DataBase.restoreBackUp(activity))
+                dialog.show(supportFragmentManager,"BackupListDialogFragment")
                 true
             }
             R.id.manageUsers -> {

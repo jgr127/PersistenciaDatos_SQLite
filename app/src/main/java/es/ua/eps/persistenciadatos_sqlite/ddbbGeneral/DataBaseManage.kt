@@ -5,13 +5,13 @@ import es.ua.eps.persistenciadatos_sqlite.data.Backup
 import es.ua.eps.persistenciadatos_sqlite.data.User
 import es.ua.eps.persistenciadatos_sqlite.data.checkNameCanBeBackup
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.io.OutputStreamWriter
+import java.io.FileInputStream
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.util.*
 import java.util.Calendar.*
 
-class DataBaseManage(val context: Context,val type:DataBaseType) {
+class DataBaseManage(val context: Context) {
 
     // AUX FUNCTIONS
     private fun getNewFileName(users: List<User>):String{
@@ -24,7 +24,7 @@ class DataBaseManage(val context: Context,val type:DataBaseType) {
         val hour=checkDoubleDigit(cal.get(HOUR_OF_DAY))
         val min=checkDoubleDigit(cal.get(MINUTE))
 
-        val name=when(type){
+        val name=when(DataBase.currentType){
             DataBaseType.SQLITE->"SQLite"
             DataBaseType.ROOM->"ROOM"
         }
@@ -52,17 +52,34 @@ class DataBaseManage(val context: Context,val type:DataBaseType) {
             writer.flush()
         }
         catch (e: Exception){ e.printStackTrace() }
-
     }
+    fun getBackupUsers(fileName:String):List<User>{
+        val res = mutableListOf<User>()
+        try{
+            val fileInputStream: FileInputStream = context.openFileInput(fileName)
+            val reader = fileInputStream.bufferedReader()
+            return reader.lineSequence()
+                .filter { it.isNotBlank() }
+                .map {
+                    val (id, nick, name, email, password) = it.split(',', ignoreCase = false, limit = 5)
+                    User(id=fixInput(id).toInt(),nick=fixInput(nick),password=fixInput(password),name=fixInput(name),email=fixInput(email))
+                }.toList()
 
+        }catch (e:Exception){e.printStackTrace()}
+        return res
+    }
     fun getBackupList():List<Backup>{
         val res= mutableListOf<Backup>()
-        File("").walkBottomUp().forEach { it ->
-            checkNameCanBeBackup(it)?.let {
+        val dirFiles: File = context.filesDir
+        for (strFile in dirFiles.list()) {
+            checkNameCanBeBackup(strFile)?.let {
                 res.add(it)
             }
         }
         return res
+    }
+    private fun fixInput(input:String):String{
+        return input.trim().removeSurrounding("\"")
     }
 
 

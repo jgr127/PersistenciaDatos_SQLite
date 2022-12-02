@@ -8,14 +8,14 @@ data class Backup(
     val hora:String="",
     val tipo:String="",
     val numeroUsuarios:String="",
-    val file:File
+    val fileName:String=""
 ) {
 
 }
 
-fun checkNameCanBeBackup(input:File):Backup?{
+fun checkNameCanBeBackup(input:String):Backup?{
     try{
-        val parts=input.name.split("_")
+        val parts=input.split(".")[0].split("_")
         return Backup(parts[0],parts[1],parts[2],parts[3],input)
     } catch (e:Exception){}
     return null

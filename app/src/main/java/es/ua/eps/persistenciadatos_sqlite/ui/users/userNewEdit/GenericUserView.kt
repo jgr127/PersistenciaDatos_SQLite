@@ -28,6 +28,7 @@ abstract class GenericUserView(val type: UserViewType) : AppCompatActivity() {
                 val nick=inputUserNick.text.toString()
                 val pass=inputUserPassword.text.toString()
                 val name=inputUserName.text.toString()
+                val email=inputUserEmail.text.toString()
 
                 inputUserNick.error=null
                 inputUserPassword.error=null
@@ -41,8 +42,11 @@ abstract class GenericUserView(val type: UserViewType) : AppCompatActivity() {
                 else if(name.length<3){
                     inputUserName.error="Too short!"
                 }
+                else if(email.length<3){
+                    inputUserEmail.error="Too short!"
+                }
                 else{
-                    onButtonAction(nick, pass, name,"")
+                    onButtonAction(nick, pass, name,email)
                 }
             }
 
@@ -68,6 +72,9 @@ abstract class GenericUserView(val type: UserViewType) : AppCompatActivity() {
     }
     fun setUserPassword(input:String){
         binding.inputUserPassword.setText(input)
+    }
+    fun setUserEmail(input:String){
+        binding.inputUserEmail.setText(input)
     }
 
 
